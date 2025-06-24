@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="fast2sms" content="Hc48vdEw2kAmuIM4IQgX3diz8PFHCWyh">
     <title>PhysioBook - Physiotherapy Appointments</title>
     <style>
         * {
@@ -230,6 +229,96 @@
             border-top: 2px solid #e1e1e1;
         }
 
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .policy-content {
+            max-height: 400px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+
+        .policy-content h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+
+        .policy-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .policy-content p {
+            margin-bottom: 12px;
+        }
+
+        .policy-content ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .policy-content li {
+            margin-bottom: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            width: auto;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+
+        .checkbox-group a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -260,6 +349,11 @@
                 height: 40px;
                 font-size: 16px;
             }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
@@ -277,6 +371,12 @@
                 <label for="mobileNumber">Mobile Number</label>
                 <input type="tel" id="mobileNumber" placeholder="Enter your 10-digit mobile number" maxlength="10">
             </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="termsAccept" required>
+                <label for="termsAccept">I agree to the <a href="#" onclick="showPolicy('terms')">Terms of Service</a>, <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>, and <a href="#" onclick="showPolicy('refund')">Refund Policy</a></label>
+            </div>
+            
             <button class="btn" onclick="sendOTP()">Send OTP</button>
         </div>
 
@@ -296,6 +396,16 @@
                 <button class="btn" onclick="verifyOTP()">Verify OTP</button>
                 <button class="btn btn-secondary" onclick="resendOTP()">Resend OTP</button>
             </div>
+        </div>
+
+        <!-- Policy Display Screen -->
+        <div id="policyScreen" class="card hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 id="policyTitle" style="color: #667eea; margin: 0;"></h2>
+                <button onclick="hidePolicy()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #667eea;">&times;</button>
+            </div>
+            <div id="policyContent" class="policy-content"></div>
+            <button class="btn" onclick="hidePolicy()">Close</button>
         </div>
 
         <!-- Booking Screen -->
@@ -330,16 +440,16 @@
                 <div class="doctor-card" onclick="selectDoctor('rupam')">
                     <div class="doctor-avatar">DR</div>
                     <h3>Dr. Rupam</h3>
-                    <p style="color: #666; margin: 10px 0;">Physiotherapist</p>
-                    <p style="font-size: 0.9rem; color: #888;">8+ years experience</p>
-                    <p style="font-size: 0.9rem; color: #888;">Specializes in CP children</p>
+                    <p style="color: #666; margin: 10px 0;">Orthopedic Physiotherapist</p>
+                    <p style="font-size: 0.9rem; color: #888;">15+ years experience</p>
+                    <p style="font-size: 0.9rem; color: #888;">Specializes in sports injuries</p>
                 </div>
                 <div class="doctor-card" onclick="selectDoctor('shivam')">
                     <div class="doctor-avatar">DS</div>
                     <h3>Dr. Shivam</h3>
-                    <p style="color: #666; margin: 10px 0;">Physiotherapist</p>
-                    <p style="font-size: 0.9rem; color: #888;">8+ years experience</p>
-                    <p style="font-size: 0.9rem; color: #888;">Specializes in CP children</p>
+                    <p style="color: #666; margin: 10px 0;">Neurological Physiotherapist</p>
+                    <p style="font-size: 0.9rem; color: #888;">12+ years experience</p>
+                    <p style="font-size: 0.9rem; color: #888;">Specializes in rehabilitation</p>
                 </div>
             </div>
 
@@ -418,6 +528,20 @@
 
             <button class="btn" onclick="bookAnother()">Book Another Appointment</button>
         </div>
+
+        <!-- Footer with Policy Links -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#" onclick="showPolicy('about')">About Us</a>
+                <a href="#" onclick="showPolicy('contact')">Contact</a>
+                <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>
+                <a href="#" onclick="showPolicy('terms')">Terms of Service</a>
+                <a href="#" onclick="showPolicy('refund')">Refund Policy</a>
+                <a href="#" onclick="showPolicy('cancellation')">Cancellation Policy</a>
+            </div>
+            <p>&copy; 2024 PhysioBook. All rights reserved. | Designed for better healthcare accessibility</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">Registered Address: [Your Complete Business Address]</p>
+        </div>
     </div>
 
     <script>
@@ -429,11 +553,290 @@
         // Mock OTP for demo (in real app, this would be generated server-side)
         const mockOTP = '123456';
 
+        // Policy content
+        const policies = {
+            privacy: {
+                title: "Privacy Policy",
+                content: `
+                    <h3>Information We Collect</h3>
+                    <p>We collect information you provide directly to us, such as when you create an account, book an appointment, or contact us. This includes:</p>
+                    <ul>
+                        <li>Personal information (name, email, phone number, age)</li>
+                        <li>Medical information relevant to your physiotherapy treatment</li>
+                        <li>Payment information (processed securely through Razorpay)</li>
+                        <li>Usage data and device information</li>
+                    </ul>
+
+                    <h3>How We Use Your Information</h3>
+                    <p>We use your information to:</p>
+                    <ul>
+                        <li>Provide and maintain our services</li>
+                        <li>Process appointments and payments</li>
+                        <li>Communicate with you about your appointments</li>
+                        <li>Improve our services and user experience</li>
+                        <li>Comply with legal obligations</li>
+                    </ul>
+
+                    <h3>Information Sharing</h3>
+                    <p>We do not sell or rent your personal information. We may share your information with:</p>
+                    <ul>
+                        <li>Healthcare providers for treatment purposes</li>
+                        <li>Payment processors (Razorpay) for transaction processing</li>
+                        <li>Service providers who assist in our operations</li>
+                        <li>Legal authorities when required by law</li>
+                    </ul>
+
+                    <h3>Data Security</h3>
+                    <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+
+                    <h3>Your Rights</h3>
+                    <p>You have the right to access, update, or delete your personal information. Contact us at privacy@physiobook.com for any privacy-related requests.</p>
+
+                    <h3>Contact Us</h3>
+                    <p>If you have questions about this Privacy Policy, please contact us at privacy@physiobook.com or +91-XXXXXXXXXX.</p>
+                `
+            },
+            terms: {
+                title: "Terms of Service",
+                content: `
+                    <h3>Acceptance of Terms</h3>
+                    <p>By using PhysioBook, you agree to these Terms of Service. If you do not agree, please do not use our services.</p>
+
+                    <h3>Description of Service</h3>
+                    <p>PhysioBook is a platform that connects patients with licensed physiotherapists for appointments and consultations.</p>
+
+                    <h3>User Responsibilities</h3>
+                    <p>You agree to:</p>
+                    <ul>
+                        <li>Provide accurate and complete information</li>
+                        <li>Maintain the confidentiality of your account</li>
+                        <li>Use the service only for lawful purposes</li>
+                        <li>Respect the healthcare providers and other users</li>
+                        <li>Arrive on time for scheduled appointments</li>
+                    </ul>
+
+                    <h3>Appointments and Payments</h3>
+                    <p>All appointments must be booked through our platform. Payment is required at the time of booking. We use Razorpay for secure payment processing.</p>
+
+                    <h3>Medical Disclaimer</h3>
+                    <p>PhysioBook is a booking platform. We do not provide medical advice. Always consult with qualified healthcare professionals for medical concerns.</p>
+
+                    <h3>Limitation of Liability</h3>
+                    <p>PhysioBook is not liable for any indirect, incidental, or consequential damages arising from your use of our services.</p>
+
+                    <h3>Termination</h3>
+                    <p>We may terminate or suspend your account for violation of these terms or for any other reason at our discretion.</p>
+
+                    <h3>Changes to Terms</h3>
+                    <p>We may modify these terms at any time. Continued use of our services constitutes acceptance of the modified terms.</p>
+
+                    <h3>Contact Information</h3>
+                    <p>For questions about these Terms, contact us at support@physiobook.com or +91-XXXXXXXXXX.</p>
+                `
+            },
+            refund: {
+                title: "Refund Policy",
+                content: `
+                    <h3>Refund Eligibility</h3>
+                    <p>Refunds are available under the following circumstances:</p>
+                    <ul>
+                        <li>Cancellation by the healthcare provider</li>
+                        <li>Technical issues preventing service delivery</li>
+                        <li>Cancellation by patient at least 24 hours before appointment</li>
+                        <li>Service not delivered as promised</li>
+                    </ul>
+
+                    <h3>Non-Refundable Situations</h3>
+                    <p>Refunds will not be provided for:</p>
+                    <ul>
+                        <li>No-shows or last-minute cancellations (less than 24 hours)</li>
+                        <li>Patient dissatisfaction with treatment outcomes</li>
+                        <li>Change of mind after service delivery</li>
+                        <li>Platform fees (non-refundable processing charges)</li>
+                    </ul>
+
+                    <h3>Refund Process</h3>
+                    <p>Eligible refunds will be processed within 5-7 business days to the original payment method. The platform fee (₹50) is non-refundable.</p>
+
+                    <h3>How to Request a Refund</h3>
+                    <p>Contact our support team at refunds@physiobook.com with your booking ID and reason for refund request.</p>
+
+                    <h3>Emergency Situations</h3>
+                    <p>In case of medical emergencies preventing attendance, please contact us immediately. We will consider refund requests on a case-by-case basis.</p>
+
+                    <h3>Dispute Resolution</h3>
+                    <p>Any refund disputes will be handled through our customer support process. Decisions by PhysioBook management are final.</p>
+                `
+            },
+            cancellation: {
+                title: "Cancellation Policy",
+                content: `
+                    <h3>Cancellation by Patient</h3>
+                    <p>Patients can cancel appointments with the following conditions:</p>
+                    <ul>
+                        <li><strong>24+ hours before:</strong> Full refund (minus platform fee)</li>
+                        <li><strong>12-24 hours before:</strong> 50% refund</li>
+                        <li><strong>Less than 12 hours:</strong> No refund</li>
+                        <li><strong>No-show:</strong> No refund</li>
+                    </ul>
+
+                    <h3>Cancellation by Healthcare Provider</h3>
+                    <p>If a healthcare provider cancels:</p>
+                    <ul>
+                        <li>Full refund will be processed immediately</li>
+                        <li>We will help reschedule at no additional cost</li>
+                        <li>Alternative provider options will be offered</li>
+                    </ul>
+
+                    <h3>How to Cancel</h3>
+                    <p>To cancel an appointment:</p>
+                    <ul>
+                        <li>Call our support line: +91-XXXXXXXXXX</li>
+                        <li>Email: support@physiobook.com</li>
+                        <li>Include your booking ID and reason for cancellation</li>
+                    </ul>
+
+                    <h3>Rescheduling</h3>
+                    <p>Appointments can be rescheduled up to 12 hours before the scheduled time without additional charges.</p>
+
+                    <h3>Emergency Cancellations</h3>
+                    <p>In case of medical emergencies or unforeseen circumstances, please contact us immediately. We will review each case individually.</p>
+
+                    <h3>Platform Responsibility</h3>
+                    <p>PhysioBook is not responsible for cancellations due to natural disasters, government restrictions, or other force majeure events.</p>
+                `
+            },
+            about: {
+                title: "About PhysioBook",
+                content: `
+                    <h3>Our Mission</h3>
+                    <p>PhysioBook is dedicated to making quality physiotherapy care accessible and convenient for everyone. We connect patients with experienced, licensed physiotherapists through our easy-to-use digital platform.</p>
+
+                    <h3>What We Do</h3>
+                    <p>We provide:</p>
+                    <ul>
+                        <li>Online appointment booking with qualified physiotherapists</li>
+                        <li>Secure payment processing</li>
+                        <li>Appointment management and reminders</li>
+                        <li>Quality healthcare provider network</li>
+                    </ul>
+
+                    <h3>Our Healthcare Providers</h3>
+                    <p>All physiotherapists on our platform are:</p>
+                    <ul>
+                        <li>Licensed and certified professionals</li>
+                        <li>Experienced in their specializations</li>
+                        <li>Committed to providing quality care</li>
+                        <li>Regularly reviewed for service quality</li>
+                    </ul>
+
+                    <h3>Company Information</h3>
+                    <p><strong>Company Name:</strong> PhysioBook Healthcare Solutions</p>
+                    <p><strong>Registration Number:</strong> Individual </p>
+                    <p><strong>Awas Vikas Colony Jhusi , Prayagraj</strong> </p>
+
+                    <h3>Quality Assurance</h3>
+                    <p>We maintain high standards through:</p>
+                    <ul>
+                        <li>Regular provider verification</li>
+                        <li>Patient feedback monitoring</li>
+                        <li>Continuous service improvement</li>
+                        <li>Compliance with healthcare regulations</li>
+                    </ul>
+                `
+            },
+            contact: {
+                title: "Contact Us",
+                content: `
+                    <h3>Get in Touch</h3>
+                    <p>We're here to help! Contact us through any of the following methods:</p>
+
+                    <h3>Customer Support</h3>
+                    <p><strong>Phone:</strong> +91-8787282447</p>
+                    <p><strong>Email:</strong> support@physiobook.com</p>
+                    <p><strong>Hours:</strong> Monday to Saturday, 9:00 AM - 6:00 PM</p>
+
+                    <h3>Business Inquiries</h3>
+                    <p><strong>Email:</strong> business@physiobook.com</p>
+                    <p><strong>Phone:</strong> +91-XXXXXXXXXX</p>
+
+                    <h3>Healthcare Provider Applications</h3>
+                    <p><strong>Email:</strong> providers@physiobook.com</p>
+                    <p>Join our network of qualified physiotherapists</p>
+
+                    <h3>Technical Support</h3>
+                    <p><strong>Email:</strong> tech@physiobook.com</p>
+                    <p>For app-related issues and technical assistance</p>
+
+                    <h3>Privacy & Data Protection</h3>
+                    <p><strong>Email:</strong> privacy@physiobook.com</p>
+                    <p>For privacy-related queries and data protection requests</p>
+
+                    <h3>Refunds & Billing</h3>
+                    <p><strong>Email:</strong> refunds@physiobook.com</p>
+                    <p>For refund requests and billing inquiries</p>
+
+                    <h3>Office Address</h3>
+                    <p><strong>PhysioBook Healthcare Solutions Pvt. Ltd.</strong></p>
+                    <p>[Your Complete Business Address]</p>
+                    <p>[City, State - PIN Code]</p>
+                    <p>India</p>
+
+                    <h3>Emergency Contact</h3>
+                    <p>For urgent appointment-related issues:</p>
+                    <p><strong>Emergency Helpline:</strong> +91-XXXXXXXXXX</p>
+                    <p><strong>Available:</strong> 24/7 for urgent matters</p>
+
+                    <h3>Social Media</h3>
+                    <p>Follow us for updates and health tips:</p>
+                    <ul>
+                        <li>Facebook: @PhysioBookIndia</li>
+                        <li>Instagram: @physiobook_official</li>
+                        <li>Twitter: @PhysioBookIn</li>
+                        <li>LinkedIn: PhysioBook Healthcare Solutions</li>
+                    </ul>
+                `
+            }
+        };
+
+        function showPolicy(policyType) {
+            const policy = policies[policyType];
+            if (policy) {
+                document.getElementById('policyTitle').textContent = policy.title;
+                document.getElementById('policyContent').innerHTML = policy.content;
+                
+                // Hide current screen
+                document.querySelectorAll('.card').forEach(card => card.classList.add('hidden'));
+                
+                // Show policy screen
+                document.getElementById('policyScreen').classList.remove('hidden');
+            }
+        }
+
+        function hidePolicy() {
+            document.getElementById('policyScreen').classList.add('hidden');
+            
+            // Show the appropriate screen based on current state
+            if (currentUser && currentUser.verified) {
+                document.getElementById('bookingScreen').classList.remove('hidden');
+            } else if (document.getElementById('otpScreen').style.display !== 'none') {
+                document.getElementById('otpScreen').classList.remove('hidden');
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+            }
+        }
+
         function sendOTP() {
             const mobile = document.getElementById('mobileNumber').value;
+            const termsAccepted = document.getElementById('termsAccept').checked;
             
             if (!mobile || mobile.length !== 10 || !/^\d+$/.test(mobile)) {
                 alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+
+            if (!termsAccepted) {
+                alert('Please accept the Terms of Service, Privacy Policy, and Refund Policy to continue');
                 return;
             }
 
@@ -585,36 +988,49 @@
         }
 
         function processPayment() {
-            // Mock Razorpay integration
+            // Razorpay integration options
             const options = {
-                key: 'rzp_test_1234567890', // Mock key
+                key: 'rzp_test_1234567890', // Replace with your actual Razorpay key
                 amount: (appointmentPrice + 50) * 100, // Amount in paise
                 currency: 'INR',
                 name: 'PhysioBook',
-                description: 'Physiotherapy Appointment',
+                description: 'Physiotherapy Appointment Booking',
                 image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzY2N2VlYSIvPgo8cGF0aCBkPSJNMTIgMTZIMjhWMjBIMTJWMTZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTIgMjJIMjRWMjZIMTJWMjJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K',
+                order_id: 'order_' + Date.now(), // Generate order ID from your backend
                 prefill: {
-                    contact: currentUser.mobile,
-                    name: document.getElementById('patientName').value
+                    name: document.getElementById('patientName').value,
+                    email: 'customer@example.com', // Get from user profile if available
+                    contact: currentUser.mobile
+                },
+                notes: {
+                    appointment_type: document.getElementById('appointmentType').value,
+                    doctor: selectedDoctor,
+                    appointment_date: document.getElementById('appointmentDate').value,
+                    appointment_time: selectedTimeSlot
                 },
                 theme: {
                     color: '#667eea'
                 },
                 modal: {
                     ondismiss: function() {
-                        alert('Payment cancelled');
+                        alert('Payment was cancelled. Please try again.');
                     }
                 },
                 handler: function(response) {
-                    // Mock successful payment
+                    // Payment successful
+                    console.log('Payment successful:', response);
+                    
+                    // Verify payment on your backend here
+                    // After verification, show success screen
                     setTimeout(() => {
                         showSuccessScreen();
                     }, 1000);
                 }
             };
 
-            // Mock Razorpay payment (in real app, load Razorpay SDK)
-            alert('Mock Payment Processing...\nPayment ID: pay_mock123456\nAmount: ₹' + (appointmentPrice + 50));
+            // For demo purposes, we'll simulate the payment
+            // In production, include Razorpay SDK and use: const rzp = new Razorpay(options); rzp.open();
+            alert('Redirecting to Razorpay...\nDemo: Payment processing with amount ₹' + (appointmentPrice + 50));
             setTimeout(() => {
                 showSuccessScreen();
             }, 2000);
@@ -628,6 +1044,7 @@
                 <p><strong>Service:</strong> ${document.getElementById('appointmentType').options[document.getElementById('appointmentType').selectedIndex].text}</p>
                 <p><strong>Total Paid:</strong> ₹${appointmentPrice + 50}</p>
                 <p><strong>Booking ID:</strong> PB${Date.now().toString().slice(-6)}</p>
+                <p><strong>Payment ID:</strong> pay_${Date.now().toString().slice(-8)}</p>
             `;
             
             document.getElementById('finalAppointmentDetails').innerHTML = appointmentDetails;
@@ -664,5 +1081,9 @@
             document.getElementById('mobileNumber').focus();
         });
     </script>
+
+    <!-- Razorpay SDK (Add this before closing </body> tag in production) -->
+    <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
 </body>
 </html>
+                
