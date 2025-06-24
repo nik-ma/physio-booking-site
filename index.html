@@ -374,7 +374,7 @@
             
             <div class="checkbox-group">
                 <input type="checkbox" id="termsAccept" required>
-                <label for="termsAccept">I agree to the <a href="#" onclick="showPolicy('terms')">Terms of Service</a>, <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>, and <a href="#" onclick="showPolicy('refund')">Refund Policy</a></label>
+                <label for="termsAccept">I agree to the <a href="javascript:void(0)" onclick="showPolicy('terms')">Terms of Service</a>, <a href="javascript:void(0)" onclick="showPolicy('privacy')">Privacy Policy</a>, and <a href="javascript:void(0)" onclick="showPolicy('refund')">Refund Policy</a></label>
             </div>
             
             <button class="btn" onclick="sendOTP()">Send OTP</button>
@@ -532,15 +532,15 @@
         <!-- Footer with Policy Links -->
         <div class="footer">
             <div class="footer-links">
-                <a href="#" onclick="showPolicy('about')">About Us</a>
-                <a href="#" onclick="showPolicy('contact')">Contact</a>
-                <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>
-                <a href="#" onclick="showPolicy('terms')">Terms of Service</a>
-                <a href="#" onclick="showPolicy('refund')">Refund Policy</a>
-                <a href="#" onclick="showPolicy('cancellation')">Cancellation Policy</a>
+                <a href="javascript:void(0)" onclick="showPolicy('about')">About Us</a>
+                <a href="javascript:void(0)" onclick="showPolicy('contact')">Contact</a>
+                <a href="javascript:void(0)" onclick="showPolicy('privacy')">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="showPolicy('terms')">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="showPolicy('refund')">Refund Policy</a>
+                <a href="javascript:void(0)" onclick="showPolicy('cancellation')">Cancellation Policy</a>
             </div>
             <p>&copy; 2024 PhysioBook. All rights reserved. | Designed for better healthcare accessibility</p>
-            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">Registered Address: [Your Complete Business Address]</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">Registered Address: Jhusi , Prayagraj</p>
         </div>
     </div>
 
@@ -731,9 +731,10 @@
                     </ul>
 
                     <h3>Company Information</h3>
-                    <p><strong>Company Name:</strong> PhysioBook Healthcare Solutions</p>
-                    <p><strong>Registration Number:</strong> Individual </p>
-                    <p><strong>Awas Vikas Colony Jhusi , Prayagraj</strong> </p>
+                    <p><strong>Company Name:</strong> PhysioBook Healthcare Solutions Pvt. Ltd.</p>
+                    <p><strong>Registration Number:</strong> [Your Company Registration Number]</p>
+                    <p><strong>GST Number:</strong> [Your GST Number]</p>
+                    <p><strong>Registered Address:</strong> Jhusi , Prayagraj</p>
 
                     <h3>Quality Assurance</h3>
                     <p>We maintain high standards through:</p>
@@ -752,7 +753,7 @@
                     <p>We're here to help! Contact us through any of the following methods:</p>
 
                     <h3>Customer Support</h3>
-                    <p><strong>Phone:</strong> +91-8787282447</p>
+                    <p><strong>Phone:</strong> +91-XXXXXXXXXX</p>
                     <p><strong>Email:</strong> support@physiobook.com</p>
                     <p><strong>Hours:</strong> Monday to Saturday, 9:00 AM - 6:00 PM</p>
 
@@ -777,9 +778,9 @@
                     <p>For refund requests and billing inquiries</p>
 
                     <h3>Office Address</h3>
-                    <p><strong>PhysioBook Healthcare Solutions Pvt. Ltd.</strong></p>
-                    <p>[Your Complete Business Address]</p>
-                    <p>[City, State - PIN Code]</p>
+                    <p><strong>PhysioBook Healthcare Solutions</strong></p>
+                    <p>Jhusi , Prayagraj</p>
+                    <p>Jhusi, UP - 211019</p>
                     <p>India</p>
 
                     <h3>Emergency Contact</h3>
@@ -800,6 +801,7 @@
         };
 
         function showPolicy(policyType) {
+            event.preventDefault(); // Prevent any default link behavior
             const policy = policies[policyType];
             if (policy) {
                 document.getElementById('policyTitle').textContent = policy.title;
@@ -811,6 +813,7 @@
                 // Show policy screen
                 document.getElementById('policyScreen').classList.remove('hidden');
             }
+            return false; // Prevent any link navigation
         }
 
         function hidePolicy() {
@@ -819,8 +822,12 @@
             // Show the appropriate screen based on current state
             if (currentUser && currentUser.verified) {
                 document.getElementById('bookingScreen').classList.remove('hidden');
-            } else if (document.getElementById('otpScreen').style.display !== 'none') {
+            } else if (!document.getElementById('otpScreen').classList.contains('hidden')) {
                 document.getElementById('otpScreen').classList.remove('hidden');
+            } else if (!document.getElementById('paymentScreen').classList.contains('hidden')) {
+                document.getElementById('paymentScreen').classList.remove('hidden');
+            } else if (!document.getElementById('successScreen').classList.contains('hidden')) {
+                document.getElementById('successScreen').classList.remove('hidden');
             } else {
                 document.getElementById('loginScreen').classList.remove('hidden');
             }
@@ -1086,4 +1093,3 @@
     <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
 </body>
 </html>
-                
